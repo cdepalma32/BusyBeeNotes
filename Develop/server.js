@@ -3,12 +3,9 @@ const express = require('express');
 const path = require('path');
 const { clog } = require('./middleware/clog');
 const api = require('./routes/index.js');
-
 const PORT = process.env.PORT || 3001;
-
 // Create an instance of the Express application
 const app = express();
-
 // Import custom middleware, "cLog"
 app.use(clog);
 
@@ -18,20 +15,21 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api', api);
 app.use(express.static('public')); // allows public folder to be used in express
 
-
 // GET Route for homepage
-app.get('/', (req, res) =>
+app.get('/', (req, res) =>{
   res.sendFile(path.join(__dirname, '/public/index.html'))
-);
+});
 // GET Route for notes
-app.get('/notes', (req, res) =>
+app.get('/notes', (req, res) => {
 res.sendFile(path.join(__dirname, '/public/notes.html')) 
-);
+});
 
-// Wildcard route to direct users to a 404 page
-app.get('*', (req, res) =>
-  res.sendFile(path.join(__dirname, 'public/404.html'))
-);
+// Wildcard route to direct users to index.html
+app.get('*', (req, res) => {
+
+
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+});
 
 // // Set up a basic route without sending a message
 // app.get('/', (req, res) => {

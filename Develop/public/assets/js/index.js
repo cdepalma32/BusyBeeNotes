@@ -45,13 +45,31 @@ const saveNote = (note) =>
     body: JSON.stringify(note)
   });
 
-const deleteNote = (id) =>
-  fetch(`/api/notes/${id}`, {
+// const deleteNote = (id) =>
+//   fetch(`/api/notes/${id}`, {
+//     method: 'DELETE',
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   });
+
+const deleteNote = (id) => {
+  return fetch(`/api/notes/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json'
     }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to delete note');
+    }
+    return response.json();
+  })
+  .catch(error => {
+    console.error('Error deleting note:', error);
   });
+};
 
 const renderActiveNote = () => {
   hide(saveNoteBtn);
@@ -83,23 +101,77 @@ const handleNoteSave = () => {
   });
 };
 
-// Delete the clicked note
+// // Delete the clicked note
+// const handleNoteDelete = (e) => {
+//   // Prevents the click listener for the list from being called when the button inside of it is clicked
+//   e.stopPropagation();
+
+//   const note = e.target;
+//   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+
+//   if (activeNote.id === noteId) {
+//     activeNote = {};
+//   }
+
+//   deleteNote(noteId).then(() => {
+//     getAndRenderNotes();
+//     renderActiveNote();
+//   });
+// };
+
 const handleNoteDelete = (e) => {
-  // Prevents the click listener for the list from being called when the button inside of it is clicked
   e.stopPropagation();
 
   const note = e.target;
-  const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+  const dataNote = note.parentElement.getAttribute('data-note');
+  console.log('Data Note:', dataNote);
 
-  if (activeNote.id === noteId) {
-    activeNote = {};
+  if (dataNote) {
+    const { note_id } = JSON.parse(dataNote);
+    console.log('Note ID:', note_id);
+
+    if (activeNote.id === note_id) {
+      activeNote = {};
+      console.log('Cleared active note.');
+    }
+
+    deleteNote(note_id)
+      .then(() => {
+        console.log('Note deleted successfully.');
+        getAndRenderNotes();
+        renderActiveNote();
+      })
+      .catch(error => {
+        console.error('Error deleting note:', error);
+      });
+  } else {
+    console.error('Error: Data Note is undefined or null.');
   }
-
-  deleteNote(noteId).then(() => {
-    getAndRenderNotes();
-    renderActiveNote();
-  });
 };
+
+// const handleNoteDelete = (e) => {
+//   e.stopPropagation();
+
+//   const note = e.target;
+//   const noteId = JSON.parse(note.parentElement.getAttribute('data-note')).id;
+//   console.log('note:', note);
+//   console.log('Note ID to 🤬 delete:', noteId);
+
+//   if (activeNote.id === noteId) {
+//     activeNote = {};
+//     console.log('Cleared active note.');
+//   }
+
+//   deleteNote(noteId)
+//     .then(() => {
+//       console.log('Note deleted successfully.');
+//       getAndRenderNotes();
+//       renderActiveNote();
+//     })
+//     .catch(error => {
+//       console.error('Error deleting note:', error);
+//     });
+// };
 
 // Sets the activeNote and displays it
 const handleNoteView = (e) => {
