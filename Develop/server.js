@@ -31,16 +31,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'))
 });
 
-// // Set up a basic route without sending a message
-// app.get('/', (req, res) => {
-//     // Perform some action or return a different response
-//     // For example, render a template or redirect to another URL
-//     res.render('index'); // Example of rendering a template
-//   });
-
-//   // Start the server
-
-// starts the server
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
 );

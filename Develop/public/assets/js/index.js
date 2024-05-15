@@ -108,7 +108,7 @@ const handleNoteDelete = (e) => {
     const { note_id } = JSON.parse(dataNote);
 
     if (activeNote.id === note_id) {
-      activeNote = {};
+      activeNote = {}; // Clear active note when deleted
     }
 
     deleteNote(note_id)
@@ -170,7 +170,9 @@ const renderNoteList = async (notes) => {
 const createLi = (note, delBtn = true) => {
   const liEl = document.createElement('li');
   liEl.classList.add('list-group-item');
-  liEl.dataset.note = JSON.stringify(note);
+  liEl.dataset.note = JSON.stringify({ ...note, note_id: note.id }); // added to include id in datea-note attribute
+
+  // liEl.dataset.note = JSON.stringify(note);
 
   const spanEl = document.createElement('span');
   spanEl.classList.add('list-item-title');

@@ -1,7 +1,12 @@
 [
     {
-        "title": "new note",
-        "text": "hello!\n",
-        "id": "a8b314a1-6458-4faa-9887-d2ecacedff7f"
+        "title": "Go to trader joes",
+        "text": "oranges, bananas, avocados",
+        "id": "d5c36469-764c-4510-8a24-3b6eca90977b"
+    },
+    {
+        "title": "Visit mom Friday",
+        "text": "Lunch with Carter in Edgewater 2.30PM",
+        "id": "8e4bb0cc-c0fa-4da6-9ec9-c072ed6e96d5"
     }
 ]
