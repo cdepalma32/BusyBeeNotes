@@ -12,6 +12,19 @@ notes.get('/', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
   });
 
+// GET Route for retrieving a specific note
+notes.get('/:note_id', (req, res) => {
+  const noteId = req.params.note_id;
+  readFromFile('./db/db.json')
+    .then((data) => JSON.parse(data))
+    .then((json) => {
+      const result = json.filter((note) => note.note_id === noteId);
+      return result.length > 0
+        ? res.json(result)
+        : res.json('No note with that ID');
+    });
+});
+
   // DELETE Route for a specific note
 notes.delete('/:note_id', (req, res) => {
   console.log('Request Parameters:', req.params.note_id); // Log request parameters
@@ -33,7 +46,7 @@ notes.delete('/:note_id', (req, res) => {
       });
 
         // Make a new array of all notes except the one with the ID provided in the URL
-        const result = json.filter((note) => note.note_id !== String(noteId));
+        const result = json.filter((note) => note.id !== String(noteId));
         // console.log('Filtered notes:', result);
         // Save that array to the filesystem
         writeToFile('./db/db.json', result);
@@ -57,7 +70,7 @@ notes.post('/', (req, res) => {
       const newNote = {
         title,
         text,
-        note_id: uuidv4(),
+        id: uuidv4(),
       };
   
       readAndAppend(newNote, './db/db.json');
