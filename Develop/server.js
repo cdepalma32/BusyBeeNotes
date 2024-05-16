@@ -6,6 +6,11 @@ const api = require('./routes/index.js');
 const PORT = process.env.PORT || 3001;
 // Create an instance of the Express application
 const app = express();
+
+
+// Use port from environment variable for Heroku deployment or 3001 for local
+const port = process.env.PORT || 3001;
+
 // Import custom middleware, "cLog"
 app.use(clog);
 
@@ -34,3 +39,5 @@ app.get('*', (req, res) => {
 app.listen(PORT, () =>
   console.log(`App listening at http://localhost:${PORT}`)
 );
+
+
